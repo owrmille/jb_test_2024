@@ -1,6 +1,8 @@
-# jb_test_2024
+# Task #1, Solution
 
-# What does the solve() method compute?
+---
+
+# 1. What does the solve() method compute?
 Method `solve()` returns a list of lists of possible products of the values in the initial list (considering that we calculate products inside the subsets of the sizes in the range `[l, k]`). For each iteration `i` in the range `[l, k]` it calls method `help(vals, i)` that adds the results to the final list. In its turn, method `help(vals, i)` returns a list of all possible products of `i` different values from the list `vals`. 
 
 - When `k = 1`, `help(vals, 1)` returns just `vals`.
@@ -13,7 +15,7 @@ Overall, the `help()` method goes through all possible products of `i` different
 
 ---
 
-# Time Complexity Analysis for `help(vals, k)` and `solve(vals, l, k)`
+# 2. Time Complexity Analysis for `help(vals, k)` and `solve(vals, l, k)`
 
 ## Observations
 
@@ -101,3 +103,25 @@ T(n, k) = O(n^k)
   ```
   O(n^k)
   ```
+
+---
+
+# 3. Can this algorithm be optimized?
+
+Yes, it can be optimized using backtracking procedure. In this way we avoid repeated copying of the list and creation of sublists, and we simply do recursions using indices.
+
+**The optimized (and a little bit refactored) version of the initial code is in `src/Main.java`.**
+
+---
+
+## Time Complexity Analysis for optimized solution
+
+First of all, the number of ways in which we can choose a subset of size ´subset_size´ (or `k` in old variables) from `n` elements can be expressed in terms of binomial coefficients `C(n, k)= n! / (k! * (n-k)!)`. So, this is the least number of operations per one value of `subset_size` that we can possibly do.
+
+For each product the backtrack algorithm does simple operations:
+1. Multiplication of two values   
+    → **O(1)** time
+2. Adding final product to "products"  
+    → **O(1)** amortized time
+
+So each complete path from a root of recursion down to a leaf (it is one possible combination) does `O(k)` steps overall. Therefore, the total time for finding all combinations is `O(k * C(n, k))`.
